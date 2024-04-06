@@ -26,14 +26,10 @@ const searchmeal = async (e) => {
             break;
           }
         }
+        const html = document.createElement('span')
+        html.innerHTML = `${ingredients.map((ing) => `<li class="ing">${ing}</li>`).join("")}`;
     
-        const html = `
-        <span>${ingredients
-          .map((ing) => `<li class="ing">${ing}</li>`)
-          .join("")}</span>
-        `;
-    
-        ingredientsOutput.innerHTML = html;
+        ingredientsOutput.appendChild(html);
       };
         
     const showAlert = () => {
@@ -46,7 +42,7 @@ const searchmeal = async (e) => {
         );
 
         const { meals } = await res.json();
-        console.log(meals)
+        //console.log(meals)
         return meals;
     };
 
