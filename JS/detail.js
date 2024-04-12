@@ -33,28 +33,42 @@ const searchmeal = async (e) => {
   const showAlert = () => {
     alert('Comida no encontrada');
   }
-  //Funcion que solicita data
-  const fetchMealData = async (val) => {
-    const res = await fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=${val}`
-    );
-
-    const { meals } = await res.json();
-    //console.log(meals)
-    return meals;
-  };
-  if(input.value != ""){
-    window.location.search = `param=${input.value.trim()}`;
+  //Funcion que genera Aleatorios
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  let val = new URLSearchParams(window.location.search).get('param');
+  //Funcion que solicita data
+  const fetchMealData = async (val, mode) => {
 
+    let res;
+    //Segun si se quiere buscar por ID o por Nombre
+    if (mode) {
+      res = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${val}`
+      );
+    } else {
+      res = await fetch(
+        `www.themealdb.com/api/json/v1/1/lookup.php?i=${val}`
+      );
+    }
+    const { meals } = await res.json();
+    return meals[getRandomNumber(0, meals.length)];
+  };
+  //Si hay valor en Barra de Busqueda usalo de parametro
+  if (input.value != "") {
+    window.location.search = `param=${input.value.trim()}&id=na`;
+  }
+  //Obten el parametro para la busqueda
+  let val = new URLSearchParams(window.location.search).get('param');
+  console.log(val)
+  //
   if (val) {
-    const meals = await fetchMealData(val);
+    const meals = await fetchMealData(val, true);
     if (!meals) {
       showAlert();
       return;
     }
-    meals.forEach(showMealInfo);
+    showMealInfo(meals);
   } else {
     alert("Please try searching for meal :)");
   }
@@ -64,5 +78,5 @@ const searchmeal = async (e) => {
 
 document.querySelector('form').addEventListener('submit', searchmeal);
 document.querySelector('.magnifier').addEventListener('click', searchmeal);
-window.addEventListener('load',searchmeal)
+window.addEventListener('load', searchmeal)
 
