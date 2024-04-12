@@ -1,5 +1,6 @@
 const res = [];
-console.log('Creo Arrya Comidas')
+
+//Esta funcion obtiene 10 comidas randoms
 const getRandoms = async (e) => {
     console.log('Funcion getRandoms');
     e.preventDefault();
@@ -21,6 +22,6 @@ const getRandoms = async (e) => {
             res.push(meals[0]);
         }
     }
-    console.log(res);
+    return res;
 }
 window.addEventListener('load',getRandoms);

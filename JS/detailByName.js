@@ -37,12 +37,16 @@ const searchmeal = async (e) => {
   function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-  //Funcion que solicita data
+  /**
+   * Funcion que solicita data
+   *  if mode = true => SearchByName
+   *  if mode = false => SearchById
+   * */
   const fetchMealData = async (val, mode) => {
-
     let res;
     //Segun si se quiere buscar por ID o por Nombre
     if (mode) {
+      console.log(`Search Mode 1`);
       res = await fetch(
         `https://www.themealdb.com/api/json/v1/1/search.php?s=${val}`
       );
@@ -52,15 +56,16 @@ const searchmeal = async (e) => {
       );
     }
     const { meals } = await res.json();
+    console.log(meals)
     return meals[getRandomNumber(0, meals.length)];
   };
   //Si hay valor en Barra de Busqueda usalo de parametro
   if (input.value != "") {
-    window.location.search = `param=${input.value.trim()}&id=na`;
+    window.location.search = `param=${input.value.trim()}`;
   }
   //Obten el parametro para la busqueda
   let val = new URLSearchParams(window.location.search).get('param');
-  console.log(val)
+
   //
   if (val) {
     const meals = await fetchMealData(val, true);
