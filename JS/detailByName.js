@@ -1,4 +1,5 @@
-const searchmeal = async (e) => {
+
+const searchMealByName = async (e) => {
   e.preventDefault();
 
   const input = document.querySelector('.input');

@@ -1,11 +1,11 @@
-const searchmealById = async (e) => {
+const searchMealById = async (e) => {
   e.preventDefault();
 
   const title = document.querySelector('.title');
   const info = document.querySelector('.info');
   const img = document.querySelector('.img');
   const ingredientsOutput = document.querySelector('.ingredients');
-  // Funcion que muestra
+  //Mostrar Informacion de Meal
   const showMealInfo = (meal) => {
     const { strMeal, strMealThumb, strInstructions } = meal;
     title.textContent = strMeal;
@@ -38,7 +38,6 @@ const searchmealById = async (e) => {
       `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${val}`
     );
     const { meals } = await res.json();
-    console.log(meals)
     return meals[0];
   }
   //LOGICA DE FUNCION EMPIEZA AQUI
@@ -55,12 +54,16 @@ const searchmealById = async (e) => {
   //Mostrar Informacion
   showMealInfo(meals);
 };
-const searchmealByName = {
-
+//funcion redirecciona al buscar
+function redirect(){
+  let input = document.querySelector('.input').value.trim();
+  if(input != ""){
+    window.location.href = `../HTML/detailByName.html?param=${input}`;
+  }
 }
 
+window.onload = searchMealById;
+document.querySelector('form').addEventListener('submit', redirect);
+document.querySelector('.magnifier').addEventListener('click', redirect);
 
-document.querySelector('form').addEventListener('submit', searchmealByName);
-document.querySelector('.magnifier').addEventListener('click', searchmealByName);
-window.addEventListener('load', searchmealById)
 
