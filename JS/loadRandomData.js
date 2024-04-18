@@ -3,8 +3,6 @@ const loadData = async (e) => {
     const favContainer = document.querySelector('main');
     //Esta funcion obtiene 10 comidas randoms
     async function getRandoms() {
-        console.log('getRandom')
-        console.log('Funcion getRandoms');
         e.preventDefault();
         let data = [];
         while (data.length != 10) {
@@ -49,32 +47,25 @@ const loadData = async (e) => {
         let meals;
         //Busca la receta en los datos locales
         for (let i = 0; i < data.length; i++) {
-            console.log(id)
-            console.log(data[i].idMeal, id)
             if (data[i].idMeal == id) {
                 meals = data[i];
-                console.log(id)
-                console.log('Encontrada')
                 break;
             }
-            console.log('No encontrada')
         }
         //Si no se encuentra en local hacer solicitud a API
         if (!meals) {
-            console.log(`Consulta a API con id = ${id}`)
             const response = await fetch(`www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
             const { meals } = await response.json();
             meals = await meals
-            console.log(`respuesta de API ${meal}`)
         }
 
         //Crear Nodo
         const node = document.createElement('div');
-        console.log(`Nodo creado ${node}`);
         //Asigna clase        
         node.classList.add('circle-item');
         node.setAttribute('id', meals.idMeal);
         let nombre = meals.strMeal.split(" ")[0];
+        nombre = nombre.split("-")[0];
         //Rellenar Objeto
         node.innerHTML =
             `<a href="../HTML/detail.html?id=${meals.idMeal}">
@@ -100,13 +91,11 @@ const loadData = async (e) => {
             btn.innerHTML = `<i class="fa-solid fa-heart"></i>`;
             createNodeFav(id)
         }
-        console.log(`lista de favoritos ${fav}`)
     }
 
     // --LA LOGICA DE LA FUNCION COMIENZA AQUI-- //
 
     const data = await getRandoms();
-    console.log(data);
     createNodeItem(data);
     let fav = [];
     const scrollContainer = document.querySelector('.scroll-container');

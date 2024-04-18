@@ -64,7 +64,6 @@ const searchMealById = async (e) => {
 };
 //Funcion que busca por Nombre
 const searchMealByName = async (e) => {
-  console.log('Searching By Name')
   e.preventDefault();
 
   const input = document.querySelector('.input');
